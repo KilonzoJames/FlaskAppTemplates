@@ -1,0 +1,14 @@
+{% extends "layout.html" %} {% block body %}
+
+<form action="/success" method="post">
+  <input autofocus type="text" />
+  <select>
+    <option disabled selected>Sport</option>
+    <option value="Soccer">Soccer</option>
+    <option value="Tennis">Tennis</option>
+    <option value="Baseball">Baseball</option>
+  </select>
+  <button type="submit">Register</button>
+</form>
+
+{% endblock %}
