@@ -1,0 +1,29 @@
+{% extends "layout.html"%} {% block body %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Sport</th>
+            <th>
+                #
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>David</td>
+            <td>Soccer</td>
+            <td>
+                <form action="/deregister" method="post">
+                    <input name="id" type="hidden" value="1">
+                    <input type="submit" value="Deregister">
+                </form>
+            </td>
+        </tr>
+        <tr></tr>
+
+    </tbody>
+</table>
+
+{% endblock %}
