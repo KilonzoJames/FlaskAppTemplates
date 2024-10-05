@@ -10,10 +10,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Configure Sessions
-app.config['SESSION_PERMANENT'] = False 
-app.config['SESSION_TYPE'] = 'filesystem' 
-session = Session()
-session.init_app(app)
+app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SECURE'] = False  # Set to True in production
+
+Session(app)
+
 
 # Define a simple User model
 class Registrant(db.Model):
@@ -99,6 +102,26 @@ def deregister():
             flash("Invalid ID provided.", "error")
         return redirect('/deregister')
         # db.execute("DELETE FROM registrants WHERE id = ?", id)
+
+@app.route("/session")
+def sessions():
+    if not session.get("name"):
+        return redirect("/login")
+    return render_template("session.html")
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        # Store the name in session after form submission
+        session["name"] = request.form.get("name")
+        return redirect("/session")
+    return render_template("login.html")
+
+@app.route('/logout')
+def logout():
+    session.clear()  # This will clear all session data, including the session cookie
+    return redirect("/login")
+
 
 # Create the database tables
 with app.app_context():
